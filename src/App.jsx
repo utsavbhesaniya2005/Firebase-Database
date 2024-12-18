@@ -3,10 +3,10 @@ import './App.css'
 import PageNotFound from './components/PageNotFound/PageNotFound'
 import Header from './components/Header/Header'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import ShowBooks from './pages/ShowBooks'
-import AddBook from './pages/AddBook'
-import EditBook from './pages/EditBook'
-import ViewBook from './pages/ViewBook'
+import ShowRecipes from './pages/ShowRecipes'
+import AddRecipe from './pages/AddRecipe'
+import EditRecipe from './pages/EditRecipe'
+import ViewRecipe from './pages/ViewRecipe'
 
 function App() {
 
@@ -15,10 +15,10 @@ function App() {
       <div className="body">
         <Header />
         <Routes>
-          <Route path='/' element={<ShowBooks />}></Route>
-          <Route path='/add' element={<AddBook />}></Route>
-          <Route path='/edit/:id' element={<EditBook />}></Route>
-          <Route path='/view/:id' element={<ViewBook />} ></Route>
+          <Route path='/' element={<ShowRecipes />}></Route>
+          <Route path='/add' element={<AddRecipe />}></Route>
+          <Route path='/edit/:id' element={<EditRecipe />}></Route>
+          <Route path='/view/:id' element={<ViewRecipe />} ></Route>
           <Route path='*' element={<PageNotFound />}></Route>
         </Routes>
       </div>

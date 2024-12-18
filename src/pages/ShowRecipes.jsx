@@ -3,12 +3,12 @@ import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { deleteBookAsync, findBooksAsync, getBooksAsync } from '../services/actions/book.action'
+import { deleteRecipeAsync, findRecipesAsync, getRecipesAsync } from '../services/actions/recipe.action'
 import { useEffect } from 'react';
 
 const CamelHistory = () => {
 
-    const {books, isLoading, errMsg} = useSelector(state => state.BookReducers);
+    const {recipes, isLoading, errMsg} = useSelector(state => state.RecipeReducers);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,16 +18,16 @@ const CamelHistory = () => {
     }
 
     const handleDelete = (id) => {
-        dispatch(deleteBookAsync(id))
+        dispatch(deleteRecipeAsync(id))
     }
 
     const handleView = (id) => {
-        dispatch(findBooksAsync(id))
+        dispatch(findRecipesAsync(id))
         navigate(`/view/${id}`)
     }
 
     useEffect(() => {
-        dispatch(getBooksAsync())
+        dispatch(getRecipesAsync())
     }, [])  
 
     return(
@@ -48,27 +48,27 @@ const CamelHistory = () => {
                     <Table striped bordered hover className='mt-5' data-bs-theme="dark">
                         <thead>
                             <tr>
-                                <th>Book Title</th>
-                                <th>Author</th>
-                                <th>Genres</th>
-                                <th>Publication Year</th>
-                                <th>Book Info</th>
-                                <th>Price</th>
-                                <th>Total Pages</th>
+                                <th>Recipe Name</th>
+                                <th>Dish Type</th>
+                                <th>Prep. Time</th>
+                                <th>No. Of Serving</th>
+                                <th>Cooking Time</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                books.map((data, index) => (
+                                recipes.map((data, index) => (
                                     <tr key={index}>
-                                        <td>{data.bTitle}</td>
-                                        <td>{data.author}</td>
-                                        <td>{data.genre}</td>
-                                        <td>{data.pyear}</td>
-                                        <td>{data.binfo}</td>
-                                        <td>{data.bprice}</td>
-                                        <td>{data.bpages}</td>
+                                        <td>{data.resname}</td>
+                                        <td>{data.dishtype}</td>
+                                        <td>{data.preptime}</td>
+                                        <td>{data.nserving}</td>
+                                        <td>{data.ctime}</td>
+                                        <td>{data.fname}</td>
+                                        <td>{data.lname}</td>
                                         <td>
                                             <Button className='primary text-primary'  onClick={() => handleEdit(data.id)}>Edit</Button>
                                             || <Button className='danger text-danger border-danger' onClick={() => handleDelete(data.id)}>Delete</Button>

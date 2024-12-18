@@ -2,36 +2,36 @@
 // import generateUniqueId from "generate-unique-id";
 
 const initialState = {
-    books : [],
-    book : null,
+    recipes : [],
+    recipe : null,
     isLoading : false,
     errMsg : null,
     isSuccess : false
 }
 
-const BookReducers = (state = initialState, action) => {
+const RecipeReducers = (state = initialState, action) => {
 
     
     switch(action.type){
         
-        case 'ADD_BOOK_DATA_SUC' :
+        case 'ADD_RECIPE_DATA_SUC' :
 
             return { ...state, isSuccess : true, isLoading : false} 
 
-        case 'ADD_BOOK_DATA_REJ' :
+        case 'ADD_RECIPE_DATA_REJ' :
 
             return { ...state, errMsg : action.payload, isLoading : false} 
 
-        case 'FIND_BOOK_SUC' : 
+        case 'FIND_RECIPE_SUC' : 
 
             return {
                 ...state,
-                book : action.payload,
+                recipe : action.payload,
                 isLoading : false,
                 errMsg : null
             }
 
-        case 'FIND_BOOK_REJ' : 
+        case 'FIND_RECIPE_REJ' : 
 
             return {
                 ...state,
@@ -39,16 +39,15 @@ const BookReducers = (state = initialState, action) => {
                 errMsg : action.payload
             }
 
-        case 'UPDATE_BOOK_SUC' :
+        case 'UPDATE_RECIPE_SUC' :
             
-            console.log("dfvc",initialState.books);
             return{
                 ...state,
-                book : null,
+                recipe : action.payload,
                 isLoading : false
             }
             
-        case 'UPDATE_BOOK_REJ' :
+        case 'UPDATE_RECIPE_REJ' :
 
             return{
                 ...state,
@@ -56,7 +55,7 @@ const BookReducers = (state = initialState, action) => {
                 isLoading : false
             }
             
-        case 'DELETE_BOOK_REJ' :
+        case 'DELETE_RECIPE_REJ' :
 
             return{
                 ...state,
@@ -64,15 +63,15 @@ const BookReducers = (state = initialState, action) => {
                 isLoading : false
             }
 
-        case 'GET_BOOKS_DATA_SUC' :
+        case 'GET_RECIPES_DATA_SUC' :
 
             return{
                 ...state,
                 isLoading : false,
-                books : action.payload
+                recipes : action.payload
             }
 
-        case 'GET_BOOKS_DATA_REJ' :
+        case 'GET_RECIPES_DATA_REJ' :
 
             return{
                 ...state,
@@ -93,4 +92,4 @@ const BookReducers = (state = initialState, action) => {
 
 }
 
-export default BookReducers;
+export default RecipeReducers;
