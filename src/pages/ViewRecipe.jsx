@@ -1,5 +1,4 @@
-import Card from 'react-bootstrap/Card';
-import { Link, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { findRecipesAsync } from '../services/actions/recipe.action';
@@ -13,12 +12,17 @@ const View = () => {
 
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(id){
             dispatch(findRecipesAsync(id))
         }
     }, [id])
+
+    const handleBack = () => {
+        navigate(-1)
+    }
 
     if(!recipe){
         return <div className="loader-container">
@@ -35,25 +39,46 @@ const View = () => {
                 errMsg ? <h2 className='text-danger'>{errMsg}</h2>
                 :
                 <Container>
-                    <form action="">
-                        <input type="text" value={id} hidden />
-                    </form>
-                    <Card className='mx-auto mt-5' style={{ width: '30rem' }}>
-                        <Card.Img variant="top" src={recipe.bimage} />
-                        <Card.Body>
-                            <Card.Title><b>Book Title : </b> {recipe.bTitle}</Card.Title>
-                            <Card.Text><b>Book Author : </b> {recipe.author}</Card.Text>
-                            <Card.Text><b>Genres : </b> {recipe.genre}</Card.Text>
-                            <Card.Text><b>Publication year : </b> {recipe.pyear}</Card.Text>
-                            <Card.Text>
-                                <b>Book Info : </b> {recipe.binfo}
-                            </Card.Text>
-                            <Card.Text><b>Book Price : </b> {recipe.bprice}</Card.Text>
-                            <Card.Text><b>Total Pages : </b> {recipe.bpages}</Card.Text>
-                            <Link className='success text-success btn border-success' to='/'>Back To Book History</Link>
-                        </Card.Body>
-                    </Card>
+                    <div className="recipe-tabs-container mt-5">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="recipe-card">
+                                    <div className="recipe-card-header">
+                                        <img
+                                            src={recipe.rimage}
+                                            alt={recipe.resname}
+                                            className="recipe-card-image-view" height="150"
+                                        />
+                                    </div>
+                                    <div className="recipe-card-body">
+                                        <h2 className='mb-2'>Name : {recipe.resname}</h2>
+                                        <h4>Dish Type : {recipe.dishtype}</h4>
+                                        <div className="recipe-info">
+                                            <div>
+                                                <i className="icon">⏱️</i>
+                                                <span>{recipe.preptime} Mins</span>
+                                            </div>
+                                            <div className='m-3'>
+                                                <i className="icon">🍴</i>
+                                                <span>{recipe.ing} Ingredients</span>
+                                            </div>
+                                            <div>
+                                                <i className="icon">👥</i>
+                                                <span>{recipe.nserving} Serving</span>
+                                            </div>
+                                        </div>
+                                        <p className='recipe-description'>Instructions To Make Food : <br />
+                                            {recipe.ins}
+                                        </p>
+                                        <p className="recipe-description">Recipe Steps : {recipe.recsteps}</p>
+                                        <button className="view-recipe-button" onClick={handleBack}>Back To Dashboard</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </Container>
+                
             }
         </>
     )

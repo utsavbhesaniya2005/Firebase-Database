@@ -1,4 +1,3 @@
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router';
@@ -6,23 +5,22 @@ import { Link } from 'react-router';
 const Header = () => {
     return(
         <>
-            <Navbar collapseOnSelect expand="lg" className="bg-body-black" data-bs-theme="dark">
-                <Container>
-                    <Navbar.Brand >
-                        <img src="../src/assets/logo.jpg" height="50" width="100" alt="Logo" />
+            <Navbar collapseOnSelect expand="lg" className='header'>
+                <Navbar.Brand >
+                        <img src="../src/assets/logo.jpg" className='ms-5' height="100" width="150" alt="Logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className='ms-auto'>
-                        <Nav className='me-5'>
+                    <Navbar.Collapse id="responsive-navbar-nav" className='postion-relative'>
+                    <Nav className='ms-auto navbar me-5'>
+                        <Nav className='me-5 nav'>
                             <Link to='/add' className='navigate'>Add Recipes</Link>
                         </Nav>
-                        <Nav>
+                        <Nav className='nav'>
                             <Link to='/' className='navigate'>Recipe History</Link>
                         </Nav>
+                        <div className="slide"></div>
                     </Nav>
-                    </Navbar.Collapse>
-                </Container>
+                </Navbar.Collapse>
             </Navbar>
         </>
     )

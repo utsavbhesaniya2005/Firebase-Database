@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { findRecipesAsync, updateRecipeAsync } from '../services/actions/recipe.action';
 import { useNavigate, useParams } from 'react-router';
+import './AddRecipe.css'
 
 const EditRecipe = () => {
 
@@ -13,10 +14,10 @@ const EditRecipe = () => {
         dishtype: '',
         preptime : '',
         nserving: '',
-        ctime : '',
+        rimage : '',
         recsteps : '',
-        fname : '',
-        lname : '' 
+        ing : '',
+        ins : '' 
     });
     
     const { id } = useParams();
@@ -26,26 +27,17 @@ const EditRecipe = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-
-        const { name, value, files } = e.target;
-    
-        if(name === "bimage" && files.length > 0){
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFormData((prevData) => ({
-
-                    ...prevData,
-                    [name] : reader.result,
-                }));
-            };
-            reader.readAsDataURL(file); 
-        }else{
-            setFormData((prevData) => ({
-
-                ...prevData,
-                [name] : value,
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFormData((prev) => ({
+                ...prev,
+                rimage: reader.result,
             }));
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
         }
     };
 
@@ -67,7 +59,7 @@ const EditRecipe = () => {
 
     return(
         <>
-            <Container>
+            <Container className='addRec'>
                 <h1 className="mt-3 my-5">Recipe Edit Form</h1>
 
                 {
@@ -97,6 +89,13 @@ const EditRecipe = () => {
                                     <Form.Control type="number" placeholder="Ex: 20 Mins" name="preptime" value={formData.preptime} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
+
+                            <Col md={4}>
+                                <Form.Group controlId="rimage" className='mt-5'>
+                                    <Form.Label>Recipe Image : </Form.Label>
+                                    <Form.Control type="file" placeholder="Add Recipe Image" name="rimage" onChange={handleChange} />
+                                </Form.Group>
+                            </Col>
                         </Row>
 
                         <Row className='my-5 justify-content-between'>
@@ -108,23 +107,16 @@ const EditRecipe = () => {
                             </Col>
 
                             <Col md={4}>
-                                <Form.Group controlId="ctime">
-                                    <Form.Label>Cooking Time : </Form.Label>
-                                    <Form.Control type="number" placeholder="Enter Cooking Time" name="ctime" value={formData.ctime} onChange={handleChange} />
+                                <Form.Group controlId="ing" className='mt-5'>
+                                    <Form.Label>Ingrediants : </Form.Label>
+                                    <Form.Control type="number" placeholder="Ex : 5" name="ing" value={formData.ing} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
 
-                            <Col md={5}>
-                                <Form.Group controlId="fname" className='mt-5'>
-                                    <Form.Label>First Name : </Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Your Name" name="fname" value={formData.fname} onChange={handleChange} />
-                                </Form.Group>
-                            </Col>
-
-                            <Col md={5}>
-                                <Form.Group controlId="lname" className='mt-5'>
-                                    <Form.Label>Last Name : </Form.Label>
-                                    <Form.Control type="number" placeholder="Enter Last Name" name="lname" value={formData.lname} onChange={handleChange} />
+                            <Col md={12}>
+                                <Form.Group controlId="ins" className='mt-5'>
+                                    <Form.Label>Instructions : </Form.Label>
+                                    <textarea className='form-control' rows="2" cols="5" type="text" placeholder="Enter Instructions" name="recsteps" value={formData.ins} onChange={handleChange} />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -138,7 +130,7 @@ const EditRecipe = () => {
                             </Col>
                         </Row>
 
-                        <Button variant="primary" type="submit">Update Recipe</Button>
+                        <Button variant="success" type="submit">Update Recipe</Button>
                     </Form>
                 }
             </Container>

@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddRecipesAsync } from '../services/actions/recipe.action';
 import { useNavigate } from 'react-router';
+import './AddRecipe.css'
 // import generateUniqueId from 'generate-unique-id';
 
 const AddRecipe = () => {
@@ -14,47 +15,37 @@ const AddRecipe = () => {
         dishtype: '',
         preptime : '',
         nserving: '',
-        ctime : '',
+        rimage : '',
         recsteps : '',
-        fname : '',
-        lname : '' 
+        ing : '',
+        ins : '' 
     });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-
-        const { name, value, files } = e.target;
-    
-        if(name === "bimage" && files.length > 0){
-
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onloadend = () =>{
-                
-                setFormData((prevData) => ({
-                    ...prevData,
-                    [name] : reader.result,
-                }));
-            };
-            reader.readAsDataURL(file);
-        }else{
-            setFormData((prevData) => ({
-
-                ...prevData,
-                [name] : value,
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFormData((prev) => ({
+                ...prev,
+                rimage: reader.result,
             }));
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // if (!formData.bTitle || !formData.author || !formData.pyear || !formData.bprice || !formData.bpages) {
-        //     //alert("Please fill in all required fields");
-        //     return;
-        // }
+        if (!formData.resname || !formData.dishtype || !formData.preptime || !formData.nserving || !formData.rimage || !formData.ctime || !formData.recsteps || !formData.ing || !formData.ins) {
+            alert("Please fill in all required fields");
+            return;
+        }
 
         dispatch(AddRecipesAsync(formData));
         navigate('/');
@@ -68,7 +59,7 @@ const AddRecipe = () => {
 
     return(
         <>
-            <Container>
+            <Container className='addRec'>
                 <h1 className="mt-3 mt-5">Recipe Sharing System</h1><br />
                 <h2 className='mb-5'>Adding Recipes</h2>
 
@@ -97,6 +88,13 @@ const AddRecipe = () => {
                                 <Form.Control type="number" placeholder="Ex: 20 Mins" name="preptime" value={formData.preptime} onChange={handleChange} />
                             </Form.Group>
                         </Col>
+
+                        <Col md={4}>
+                            <Form.Group controlId="rimage" className='mt-5'>
+                                <Form.Label>Recipe Image : </Form.Label>
+                                <Form.Control type="file" placeholder="Add Recipe Image" name="rimage" onChange={handleChange} />
+                            </Form.Group>
+                        </Col>
                     </Row>
 
                     <Row className='my-5 justify-content-between'>
@@ -108,23 +106,17 @@ const AddRecipe = () => {
                         </Col>
 
                         <Col md={4}>
-                            <Form.Group controlId="ctime">
-                                <Form.Label>Cooking Time : </Form.Label>
-                                <Form.Control type="number" placeholder="Enter Cooking Time" name="ctime" value={formData.ctime} onChange={handleChange} />
+                            <Form.Group controlId="ing"
+                            >
+                                <Form.Label>Ingrediants : </Form.Label>
+                                <Form.Control type="number" placeholder="Ex : 5" name="ing" value={formData.ing} onChange={handleChange} />
                             </Form.Group>
                         </Col>
 
-                        <Col md={5}>
-                            <Form.Group controlId="fname" className='mt-5'>
-                                <Form.Label>First Name : </Form.Label>
-                                <Form.Control type="text" placeholder="Enter Your Name" name="fname" value={formData.fname} onChange={handleChange} />
-                            </Form.Group>
-                        </Col>
-
-                        <Col md={5}>
-                            <Form.Group controlId="lname" className='mt-5'>
-                                <Form.Label>Last Name : </Form.Label>
-                                <Form.Control type="number" placeholder="Enter Last Name" name="lname" value={formData.lname} onChange={handleChange} />
+                        <Col md={12}>
+                            <Form.Group controlId="ins" className='mt-5'>
+                                <Form.Label>Instructions : </Form.Label>
+                                <textarea className='form-control' rows="2" cols="5" type="text" placeholder="Enter Instructions" name="ins" value={formData.ins} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -132,13 +124,13 @@ const AddRecipe = () => {
                     <Row className='my-5'>
                         <Col md={12}>
                             <Form.Group controlId="recsteps">
-                                <Form.Label>Book Information : </Form.Label>
+                                <Form.Label>Recipe Steps : </Form.Label>
                                 <textarea className='form-control' rows="2" cols="5" type="text" placeholder="Enter Recipe Steps" name="recsteps" value={formData.recsteps} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>
 
-                    <Button variant="primary" type="submit">Add Book</Button>
+                    <Button variant="success" type="submit">Add Recipe</Button>
                 </Form>
             }
             </Container>
