@@ -73,18 +73,7 @@ export const loading = () => {
 export const getRecipesAsync = () => {
     return async dispatch => {
 
-        // dispatch(loading())
-        
-        // setTimeout(() => {
-        //     api.get('/books').then(res => {
-    
-        //         dispatch(getBooksDataSuc(res.data))
-                
-        //     }).catch(err => {
-             
-        //         dispatch(getBooksDataRej(err.message))
-        //     })
-        // }, 2000)
+        dispatch(loading())
 
         try{
             
@@ -110,16 +99,6 @@ export const AddRecipesAsync = (data) => {
     return async dispatch => {
 
         dispatch(loading())
-        
-        // setTimeout(() => {
-        //     api.post('/books', data).then(res => {
-       
-        //         dispatch(AddRecipeDataSuc(res.data))     
-        //     }).catch(err => {
-            
-        //         dispatch(AddRecipeDataRej(err.message))
-        //     })
-        // }, 2000)
 
         // let recs = await setDoc(doc(db, "camels", "1"), data);
 
@@ -141,15 +120,6 @@ export const findRecipesAsync = (id) => {
 
         dispatch(loading())
 
-        // setTimeout(() => {
-        //     api.get(`/books/${id}`).then((res) => {
-
-        //         dispatch(findBookSuc(res.data))
-        //     }).catch((err) => {
-    
-        //         dispatch(findBookRej(err.message))
-        //     })
-        // }, 2000)
         try{
 
             let findRec = await getDoc(doc(db, "recipes", `${id}`));
@@ -171,15 +141,6 @@ export const updateRecipeAsync = (data) => {
     return async dispatch => {
         dispatch(loading())
 
-        // setTimeout(() => {
-        //     api.put(`/books/${data.id}`,data).then((res) => {
-      
-        //         dispatch(updateBookSuc(res.data))
-        //     }).catch((err) => {
-    
-        //         dispatch(updateBookRej(err.message))
-        //     })
-        // }, 2000)
         try{
 
             let updateRec = await setDoc(doc(db, "recipes", `${data.id}`), data);
@@ -197,20 +158,13 @@ export const deleteRecipeAsync = (id) => {
     return async dispatch => {
         dispatch(loading())
 
-        // api.delete(`/books/${id}`).then(() => {
-        
-        //     dispatch(getBooksAsync());
-        // }).catch((err) => {
-
-        //     dispatch(deleteBookTRej(err.message))
-        // })
         try{
             
             await deleteDoc(doc(db, "recipes", `${id}`));
             dispatch(getRecipesAsync());
         }catch(err){
-            console.log(err);
             
+            console.log(err);
         }
     }
 }

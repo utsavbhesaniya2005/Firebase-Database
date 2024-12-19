@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { findRecipesAsync } from '../services/actions/recipe.action';
 import { Container } from 'react-bootstrap';
+import Loader from '../components/Loader/Loader'
 
 const View = () => {
 
@@ -25,12 +26,7 @@ const View = () => {
     }
 
     if(!recipe){
-        return <div className="loader-container">
-                    <div className="glowing-circle">
-                        <div className="inner-glow"></div>
-                    </div>
-                    <div className="loading-text">Loading...</div>
-            </div>
+        return <Loader />
     }
 
     return(

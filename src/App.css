@@ -181,7 +181,7 @@ label{
 }
 
 .view-recipe-button {
-  background-color: #ff477e;
+  background-color: #A294F9 ;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -194,5 +194,3 @@ label{
 .view-recipe-button:hover {
   background-color: #e63d6b;
 }
-
-/* Loader */
