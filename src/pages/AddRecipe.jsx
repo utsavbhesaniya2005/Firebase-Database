@@ -28,7 +28,7 @@ const AddRecipe = () => {
 
         const { name, value, files } = e.target;
     
-        if(name === "r  image" && files.length > 0){
+        if(name === "rimage" && files.length > 0){
 
             const file = files[0];
             const reader = new FileReader();
@@ -53,10 +53,10 @@ const AddRecipe = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!formData.resname || !formData.dishtype || !formData.preptime || !formData.nserving || !formData.rimage || !formData.recsteps || !formData.ing || !formData.ins) {
-            alert("Please fill in all required fields");
-            return;
-        }
+        // if (!formData.resname || !formData.dishtype || !formData.preptime || !formData.nserving || !formData.rimage || !formData.recsteps || !formData.ing || !formData.ins) {
+        //     alert("Please fill in all required fields");
+        //     return;
+        // }
 
         dispatch(AddRecipesAsync(formData));
         navigate('/');

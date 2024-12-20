@@ -3,15 +3,24 @@ import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deleteRecipeAsync, findRecipesAsync, getRecipesAsync } from '../services/actions/recipe.action'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '../components/Loader/Loader'
 
 const ShowRecipes = () => {
 
     const {recipes, isLoading, errMsg} = useSelector(state => state.RecipeReducers);
 
+    const [searchItem, setSearchItem] = useState('');
+    const [filteredRecipes, setFilterRecipes] = useState([])
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const handleInputChange = (e) => {
+        const searchTerm = e.target.value;
+        setSearchItem(searchTerm)
+    }
+
 
     const handleEdit = (id) => {
         navigate(`/edit/${id}`)
@@ -30,9 +39,20 @@ const ShowRecipes = () => {
         dispatch(getRecipesAsync())
     }, [dispatch])  
 
+    useEffect(() => {
+        const filteredItems = recipes.filter((recipe) => 
+            recipe.resname.toLowerCase().includes(searchItem.toLowerCase())
+        );
+
+        setFilterRecipes(filteredItems)
+    }, [recipes, searchItem])
+
     return(
         <>
             {
+                recipes.length === 0 
+                ? <h1 className='text-warning mt-5'>No Recipes Found.!</h1> 
+                :
                 errMsg 
                 ?   <h1 className='text-danger'>{errMsg}</h1> 
                 :   
@@ -41,24 +61,24 @@ const ShowRecipes = () => {
                     <Loader />
                     :
                     <div className="container mt-5">
-                        <div className="row">
+                        <div className="row row-gap-5">
                             <div className="col-12">
-                            <Form>
-                                <Form.Group className="mb-3" controlId="rsearch">
-                                    <Form.Label>Recipe Search : </Form.Label>
-                                    <Form.Control type="email" placeholder="name@example.com" name='rsearch' className='recipe-search' />
-                                </Form.Group>
-                            </Form>
+                                <Form className='mb-5'>
+                                    <Form.Group className="mb-3 d-flex" controlId="rsearch">
+                                        <Form.Label className='recipe-label'>Recipe&nbsp;Search&nbsp;:</Form.Label>&nbsp;
+                                        <Form.Control type="text" placeholder="Search By Recipe Name"  className='recipe-search' value={searchItem} onChange={handleInputChange} />
+                                    </Form.Group>
+                                </Form>
                             </div>
                             {
-                                recipes.map((data, index) => (
+                                filteredRecipes.map((data, index) => (
                                     <div className="col-4" key={index}>
                                         <div className="recipe-card-show">
-                                            <div className="recipe-card-header">
+                                            <div className="recipe-card-header rounded overflow-hidden">
                                                 <img 
-                                                src={data.rimage}
-                                                alt={data.resname}
-                                                className="recipe-card-image"
+                                                src={data.rimage || '../src/assets/default-img.png'}
+                                                alt="Recipe Image"
+                                                className="recipe-card-image text-black rounded"
                                                 />
                                             </div>
                                             <div className="recipe-card-body">
