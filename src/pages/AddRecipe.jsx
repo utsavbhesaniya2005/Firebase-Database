@@ -25,24 +25,35 @@ const AddRecipe = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setFormData((prev) => ({
-                ...prev,
-                rimage: reader.result,
-            }));
-        };
 
-        if (file) {
+        const { name, value, files } = e.target;
+    
+        if(name === "r  image" && files.length > 0){
+
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onloadend = () =>{
+                
+                setFormData((prevData) => ({
+                    ...prevData,
+                    [name] : reader.result,
+                }));
+            };
             reader.readAsDataURL(file);
+        }else{
+            setFormData((prevData) => ({
+
+                ...prevData,
+                [name] : value,
+            }));
         }
+
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!formData.resname || !formData.dishtype || !formData.preptime || !formData.nserving || !formData.rimage || !formData.ctime || !formData.recsteps || !formData.ing || !formData.ins) {
+        if (!formData.resname || !formData.dishtype || !formData.preptime || !formData.nserving || !formData.rimage || !formData.recsteps || !formData.ing || !formData.ins) {
             alert("Please fill in all required fields");
             return;
         }
@@ -85,7 +96,7 @@ const AddRecipe = () => {
                         <Col md={8}>
                             <Form.Group controlId="preptime" className='mt-5'>
                                 <Form.Label>Preparation Time : </Form.Label>
-                                <Form.Control type="number" placeholder="Ex: 20 Mins" name="preptime" value={formData.preptime} onChange={handleChange} />
+                                <Form.Control type="number" placeholder="Ex: 20" name="preptime" value={formData.preptime} onChange={handleChange} />
                             </Form.Group>
                         </Col>
 

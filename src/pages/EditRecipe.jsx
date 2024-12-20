@@ -27,17 +27,27 @@ const EditRecipe = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setFormData((prev) => ({
-                ...prev,
-                rimage: reader.result,
-            }));
-        };
 
-        if (file) {
+        const { name, value, files } = e.target;
+    
+        if(name === "rimage" && files.length > 0){
+
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onloadend = () =>{
+                
+                setFormData((prevData) => ({
+                    ...prevData,
+                    [name] : reader.result,
+                }));
+            };
             reader.readAsDataURL(file);
+        }else{
+            setFormData((prevData) => ({
+
+                ...prevData,
+                [name] : value,
+            }));
         }
     };
 

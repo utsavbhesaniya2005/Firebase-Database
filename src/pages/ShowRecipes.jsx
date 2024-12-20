@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deleteRecipeAsync, findRecipesAsync, getRecipesAsync } from '../services/actions/recipe.action'
@@ -42,6 +42,14 @@ const ShowRecipes = () => {
                     :
                     <div className="container mt-5">
                         <div className="row">
+                            <div className="col-12">
+                            <Form>
+                                <Form.Group className="mb-3" controlId="rsearch">
+                                    <Form.Label>Recipe Search : </Form.Label>
+                                    <Form.Control type="email" placeholder="name@example.com" name='rsearch' className='recipe-search' />
+                                </Form.Group>
+                            </Form>
+                            </div>
                             {
                                 recipes.map((data, index) => (
                                     <div className="col-4" key={index}>
