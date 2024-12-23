@@ -7,6 +7,8 @@ import ShowRecipes from './pages/ShowRecipes'
 import AddRecipe from './pages/AddRecipe'
 import EditRecipe from './pages/EditRecipe'
 import ViewRecipe from './pages/ViewRecipe'
+import SignUp from './pages/SignUp'
+import SignIn from './pages/SignIn'
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<ShowRecipes />}></Route>
+          <Route path='/signUp' element={<SignUp />}></Route>
+          <Route path='/signIn' element={<SignIn />}></Route>
           <Route path='/add' element={<AddRecipe />}></Route>
           <Route path='/edit/:id' element={<EditRecipe />}></Route>
           <Route path='/view/:id' element={<ViewRecipe />} ></Route>
