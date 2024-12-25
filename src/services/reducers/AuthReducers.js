@@ -1,7 +1,9 @@
 const initialState = {
-    users : [],
+    users : null,
     isCreate : false,
-    isSignUpErr : null
+    isSignUpErr : null,
+    user : null,
+    isSignIn : false
 }
 
 const AuthReducers = (state = initialState, action) => {
@@ -22,6 +24,14 @@ const AuthReducers = (state = initialState, action) => {
                 ...state,
                 isSignUpErr : action.payload
             }   
+
+        case 'SIGNIN_SUC' :
+
+        return {
+            ...state, 
+            isSignIn : true,
+            user : action.payload
+        }
 
         case 'RESET_SIGNUP_ERR' :
 

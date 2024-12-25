@@ -1,5 +1,8 @@
-.addRec{
+.addRec, .signIn{
     background-color: #A59D84 !important;
     padding: 25px 50px;
     max-width: 100%;
+}
+.signIn{
+    height: calc(100% - 125px);
 }
