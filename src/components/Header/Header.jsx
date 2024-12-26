@@ -1,8 +1,22 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+import { userLogoutAsync } from '../../services/actions/auth.action';
+import { Button } from 'react-bootstrap';
 
 const Header = () => {
+
+    const { isSignIn } = useSelector(state => state.AuthReducers);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        dispatch(userLogoutAsync());
+        navigate('/signIn');
+    }
+
     return(
         <>
             <Navbar collapseOnSelect expand="lg" className='header'>
@@ -15,9 +29,19 @@ const Header = () => {
                         <Nav className='me-5 nav'>
                             <Link to='/add' className='navigate'>Add Recipes</Link>
                         </Nav>
-                        <Nav className='nav'>
+                        <Nav className='me-5 nav'>
                             <Link to='/' className='navigate'>Recipe History</Link>
                         </Nav>
+                        {
+                            isSignIn ?  
+                            <Nav className='nav'>
+                                <button onClick={handleLogout} className='navigate bg-transparent'>Log Out</button>
+                            </Nav>
+                            :
+                            <Nav className='nav'>
+                                <Link to='/signIn' className='navigate'>Log In</Link>
+                            </Nav>
+                        }
                         <div className="slide"></div>
                     </Nav>
                 </Navbar.Collapse>

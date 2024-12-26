@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 import { loading } from "./recipe.action"
-import { auth, provider } from "../../firebaseconfig";
+import { auth, db, provider } from "../../firebaseconfig";
 import { data } from "react-router";
+import { addDoc, collection } from "firebase/firestore";
 
 export const userSignUpSuc = (users) => {
 
@@ -21,6 +22,15 @@ export const userSignUpRej = (errMsg) => {
 
 }
 
+export const userSignInRej = (errMsg) => {
+
+    return{
+        type : 'SIGNIN_REJ',
+        payload : errMsg
+    }
+
+}
+
 export const userSignInSuc = (user) => {
 
     return{
@@ -35,6 +45,20 @@ export const resetSignUpErr = () => {
     }
 }
 
+export const resetSignInErr = () => {
+    return{
+        type : 'RESET_SIGNIN_ERR'
+    }
+}
+
+export const userLogout = () => {
+
+    return{
+        type : 'SIGNOUT'
+    }
+}
+
+
 export const signUpAsync = (users) => {
 
     return async dispatch => {
@@ -46,7 +70,12 @@ export const signUpAsync = (users) => {
             
             userCred.user.displayName = users.uname;
 
-            dispatch(userSignUpSuc(userCred.user))
+            dispatch(userSignUpSuc(userCred.user));
+            
+            const { pass, ...userWithoutPass } = users;
+            
+            addDoc(collection(db, "users"), userWithoutPass);
+        
         })
         .catch((err) => {
             
@@ -77,6 +106,11 @@ export const signInAsync = (user) => {
         .catch((err) => {
 
             console.log(err);
+
+            if(err.code == 'auth/invalid-credential'){
+                
+                dispatch(userSignInRej('Username Or Password Is Invalid.'));
+            }
         })
     }
 
@@ -96,6 +130,20 @@ export const signInWithGoogle = () => {
             
         })
         .catch((err) => {
+            
+            console.log(err);
+        })
+    }
+}
+
+export const userLogoutAsync = () => {
+
+    return async dispatch => {
+
+        signOut(auth).then(() => {
+
+            dispatch(userLogout())
+        }).catch((err) => {
             
             console.log(err);
         })

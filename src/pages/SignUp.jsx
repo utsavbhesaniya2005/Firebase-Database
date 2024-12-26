@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";  
 import { useDispatch, useSelector } from "react-redux";
 import { resetSignUpErr, signUpAsync } from "../services/actions/auth.action";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const SignUp = () => {
 
@@ -84,9 +84,16 @@ const SignUp = () => {
                                     <Form.Control type="password" placeholder="Enter Confirm Password" name="cpass" onChange={handleChange} value={signUpInput.cpass} />
                                 </Form.Group>
                             </Col>
+
+                            <Col md={12}>
+                                <Form.Group controlId="cpass" className='mt-5'>
+                                    <h4>Already have an account? <Link to='/signIn'>Sign In Now</Link></h4>
+                                </Form.Group>
+                            </Col>
                         </Row>
-    
+                        
                         <Button type="submit" className="mt-4 signUp">Sign Up</Button>
+                        
                     </Form>
                 </Container>
             }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { signInAsync, signInWithGoogle } from "../services/actions/auth.action";
+import { resetSignInErr, signInAsync, signInWithGoogle } from "../services/actions/auth.action";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 
@@ -11,7 +11,7 @@ const SignIn = () => {
         pass : ''
     });
 
-    const { isSignIn } = useSelector(state => state.AuthReducers);
+    const { isSignIn, isSignInErr } = useSelector(state => state.AuthReducers);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,17 +29,15 @@ const SignIn = () => {
         e.preventDefault();
 
         dispatch(signInAsync(signInInput));
-        // if(signUpInput.pass == signUpInput.cpass){
-        // }
     }
 
     const handleGoogle = () => {
         dispatch(signInWithGoogle());
     }
 
-    // const handleBack = () => {
-    //     dispatch(resetSignUpErr())
-    // }
+    const handleBack = () => {
+        dispatch(resetSignInErr())
+    }
 
     useEffect(() => {
         if(isSignIn){
@@ -50,14 +48,14 @@ const SignIn = () => {
     return(
         <>
             {
-                // isSignUpErr ? <div className="err addRec">
-                //     <h1 className="text-danger mt-5">{isSignUpErr}</h1>
-                //     <Button className="mt-4 signUp" onClick={handleBack}>Go Back</Button>
-                // </div>
-                // :
+                isSignInErr ? <div className="err signIn">
+                    <h1 className="text-danger mt-5">{isSignInErr}</h1>
+                    <Button className="mt-4 signUp" onClick={handleBack}>Go Back</Button>
+                </div>
+                :
                 <Container className="signIn">
                     <h1 className="mt-3 mb-5">Sign In</h1>
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit} className="p-3">
                         <Row className='mb-3 justify-content-between'>
 
                             <Col md={12}>
@@ -76,7 +74,7 @@ const SignIn = () => {
 
                             <Col md={12}>
                                 <Form.Group controlId="cpass" className='mt-5'>
-                                    <h4>Don't have an account? <Link to={'/signUp'}>Sign Up Now</Link></h4>
+                                    <h4>Don't have an account? <Link to='/signUp'>Sign Up Now</Link></h4>
                                 </Form.Group>
                             </Col>
                         </Row>
